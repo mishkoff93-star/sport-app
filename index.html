@@ -279,14 +279,31 @@
 
         // === ЛОГИКА ===
 
-        async function register() {
+async function register() {
     const name = document.getElementById('reg-name').value;
     if (!name) return alert('Введите имя');
     
     const btn = document.querySelector('#view-login button');
-    const originalText = btn.innerText;
     btn.innerText = 'Загрузка...';
-    btn.disabled = true;
+    
+    // Используем no-cors для отправки данных без блокировки
+    await fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors', 
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify({ action: 'register', name: name })
+    });
+    
+    // Так как no-cors не возвращает ответ, создаем пользователя локально
+    const id = 'user_' + new Date().getTime();
+    const avatar = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(name) + '&background=random';
+    
+    currentUser = { id: id, name: name, avatar: avatar, score: 0, streak: 0 };
+    localStorage.setItem('sportUser', JSON.stringify(currentUser));
+    
+    showApp();
+    loadLeaderboard(); // Загрузим рейтинг отдельно
+}
     
     try {
         // Используем no-cors режим или простой POST без заголовков
@@ -501,4 +518,5 @@
 </body>
 
 </html>
+
 
