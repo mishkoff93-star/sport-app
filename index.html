@@ -15,35 +15,24 @@
             --danger: #cf6679;
             --nav-height: 60px;
         }
-
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        
         body {
-            margin: 0;
-            padding: 0;
+            margin: 0; padding: 0;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--bg-color);
             color: var(--text);
             padding-bottom: calc(var(--nav-height) + 20px);
         }
-
-        /* Header */
         header {
             padding: 20px;
             background: linear-gradient(180deg, rgba(30,30,30,1) 0%, rgba(18,18,18,0) 100%);
-            position: sticky;
-            top: 0;
-            z-index: 10;
+            position: sticky; top: 0; z-index: 10;
         }
         h1 { margin: 0; font-size: 24px; }
         .subtitle { color: var(--text-sec); font-size: 14px; }
-
-        /* Views */
         .view { display: none; padding: 20px; animation: fadeIn 0.3s; }
         .view.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        /* Cards */
         .card {
             background-color: var(--card-bg);
             border-radius: 12px;
@@ -51,134 +40,80 @@
             margin-bottom: 15px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.3);
         }
-
-        /* Inputs & Buttons */
         input, select {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 10px;
-            background: #2c2c2c;
-            border: 1px solid #333;
-            border-radius: 8px;
-            color: white;
-            font-size: 16px;
+            width: 100%; padding: 12px; margin-bottom: 10px;
+            background: #2c2c2c; border: 1px solid #333;
+            border-radius: 8px; color: white; font-size: 16px;
         }
         button {
-            width: 100%;
-            padding: 14px;
-            background-color: var(--primary);
-            color: #000;
-            border: none;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 16px;
-            cursor: pointer;
-            transition: opacity 0.2s;
+            width: 100%; padding: 14px;
+            background-color: var(--primary); color: #000;
+            border: none; border-radius: 8px;
+            font-weight: bold; font-size: 16px;
+            cursor: pointer; transition: opacity 0.2s;
         }
         button:active { opacity: 0.8; }
         button.secondary { background-color: #333; color: white; }
         button.danger { background-color: var(--danger); color: white; }
-
-        /* Navigation */
         .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: var(--nav-height);
-            background-color: #1e1e1e;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            border-top: 1px solid #333;
-            z-index: 100;
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            height: var(--nav-height); background-color: #1e1e1e;
+            display: flex; justify-content: space-around;
+            align-items: center; border-top: 1px solid #333; z-index: 100;
         }
         .nav-item {
-            color: var(--text-sec);
-            text-align: center;
-            font-size: 10px;
-            cursor: pointer;
-            flex: 1;
+            color: var(--text-sec); text-align: center;
+            font-size: 10px; cursor: pointer; flex: 1;
         }
         .nav-item.active { color: var(--primary); }
         .nav-icon { font-size: 20px; display: block; margin-bottom: 2px; }
-
-        /* Leaderboard */
         .leader-row {
-            display: flex;
-            align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid #333;
+            display: flex; align-items: center;
+            padding: 10px 0; border-bottom: 1px solid #333;
         }
         .leader-rank { width: 30px; font-weight: bold; color: var(--secondary); }
         .leader-avatar { width: 40px; height: 40px; border-radius: 50%; margin: 0 10px; object-fit: cover; }
         .leader-info { flex: 1; }
         .leader-score { font-weight: bold; color: var(--primary); }
-
-        /* Calendar Grid */
         .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 5px;
-            margin-top: 10px;
+            display: grid; grid-template-columns: repeat(7, 1fr);
+            gap: 5px; margin-top: 10px;
         }
         .cal-day {
-            aspect-ratio: 1;
-            background: #2c2c2c;
-            border-radius: 6px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            position: relative;
-            cursor: pointer;
+            aspect-ratio: 1; background: #2c2c2c;
+            border-radius: 6px; display: flex;
+            flex-direction: column; align-items: center;
+            justify-content: center; font-size: 12px;
+            position: relative; cursor: pointer;
         }
         .cal-day.today { border: 1px solid var(--primary); }
         .cal-day.planned { background-color: rgba(187, 134, 252, 0.2); }
         .cal-day.done { background-color: rgba(3, 218, 198, 0.3); }
         .cal-day.missed { background-color: rgba(207, 102, 121, 0.3); }
-        
-        .dot {
-            width: 6px; height: 6px; border-radius: 50%;
-            margin-top: 2px;
-        }
+        .dot { width: 6px; height: 6px; border-radius: 50%; margin-top: 2px; }
         .dot.plan { background: var(--primary); }
         .dot.done { background: var(--secondary); }
-
-        /* Loader */
         .loader {
-            border: 4px solid #333;
-            border-top: 4px solid var(--primary);
-            border-radius: 50%;
-            width: 30px; height: 30px;
-            animation: spin 1s linear infinite;
-            margin: 20px auto;
+            border: 4px solid #333; border-top: 4px solid var(--primary);
+            border-radius: 50%; width: 30px; height: 30px;
+            animation: spin 1s linear infinite; margin: 20px auto;
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        /* Achievements */
         .badge {
-            display: inline-block;
-            padding: 5px 10px;
-            background: #333;
-            border-radius: 15px;
-            font-size: 12px;
-            margin: 5px 5px 5px 0;
-            border: 1px solid var(--secondary);
-            color: var(--secondary);
+            display: inline-block; padding: 5px 10px;
+            background: #333; border-radius: 15px;
+            font-size: 12px; margin: 5px 5px 5px 0;
+            border: 1px solid var(--secondary); color: var(--secondary);
         }
     </style>
 </head>
 <body>
 
-    <!-- Header -->
     <header id="app-header" style="display:none;">
         <h1 id="user-greeting">Привет!</h1>
         <div class="subtitle">Твой счет: <span id="user-score" style="color:var(--primary)">0</span> | Серия: <span id="user-streak">0</span> нед.</div>
     </header>
 
-    <!-- View: Login -->
     <div id="view-login" class="view active">
         <div class="card" style="margin-top: 50px; text-align: center;">
             <h2>Спорт Трекер</h2>
@@ -188,23 +123,20 @@
         </div>
     </div>
 
-    <!-- View: Home (Progress) -->
     <div id="view-home" class="view">
         <div class="card">
             <h3>🏆 Достижения</h3>
             <div id="achievements-list">
                 <span class="badge">Новичок</span>
-                <!-- Динамически -->
             </div>
         </div>
         <div class="card">
             <h3>📅 На сегодня</h3>
-            <div id="today-status">Загруз...</div>
+            <div id="today-status">План не установлен</div>
             <button id="btn-do-today" class="secondary" style="margin-top:10px;" onclick="completeToday()">Я был на тренировке!</button>
         </div>
     </div>
 
-    <!-- View: Calendar -->
     <div id="view-calendar" class="view">
         <div class="card">
             <h3>Планирование</h3>
@@ -219,9 +151,7 @@
         </div>
         <div class="card">
             <h3>Календарь</h3>
-            <div class="calendar-grid" id="calendar-grid">
-                <!-- JS generated -->
-            </div>
+            <div class="calendar-grid" id="calendar-grid"></div>
             <p style="font-size:12px; color:#666; margin-top:10px;">
                 <span style="color:var(--primary)">■</span> План &nbsp;
                 <span style="color:var(--secondary)">■</span> Выполнено &nbsp;
@@ -230,17 +160,13 @@
         </div>
     </div>
 
-    <!-- View: Leaderboard -->
     <div id="view-leaderboard" class="view">
         <div class="card">
             <h3>Топ участников</h3>
-            <div id="leaderboard-list">
-                <div class="loader"></div>
-            </div>
+            <div id="leaderboard-list"><div class="loader"></div></div>
         </div>
     </div>
 
-    <!-- Navigation -->
     <nav class="bottom-nav" id="app-nav" style="display:none;">
         <div class="nav-item active" onclick="switchView('home')">
             <span class="nav-icon">🏠</span>Главная
@@ -255,15 +181,12 @@
 
     <script>
         // === КОНФИГУРАЦИЯ ===
-        // ВСТАВЬ СЮДА ССЫЛКУ ИЗ GOOGLE APPS SCRIPT
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwVNEQTroHobIFpGzdg6ioymOXHMC-klPSXfW46MDu1SwKaSuev9A2p3bSBt7CsgA/exec'; 
+        // ⚠️ ВСТАВЬ СЮДА ССЫЛКУ ИЗ GOOGLE APPS SCRIPT (без пробелов в конце!)
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwVNEQTroHobIFpGzdg6ioymOXHMC-klPSXfW46MDu1SwKaSuev9A2p3bSBt7CsgA/exec';
         
-        // Состояние приложения
         let currentUser = null;
         let allUsers = [];
-        let logs = []; // Храним логи локально для кэша
 
-        // === ИНИЦИАЛИЗАЦИЯ ===
         window.onload = function() {
             const savedUser = localStorage.getItem('sportUser');
             if (savedUser) {
@@ -273,99 +196,57 @@
                 renderCalendar();
                 checkTodayStatus();
             }
-            // Установка даты в инпуте на сегодня
             document.getElementById('train-date').valueAsDate = new Date();
         };
 
-        // === ЛОГИКА ===
-
-async function register() {
-    const name = document.getElementById('reg-name').value;
-    if (!name) return alert('Введите имя');
-    
-    const btn = document.querySelector('#view-login button');
-    btn.innerText = 'Загрузка...';
-    
-    // Используем no-cors для отправки данных без блокировки
-    await fetch(SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors', 
-        headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify({ action: 'register', name: name })
-    });
-    
-    // Так как no-cors не возвращает ответ, создаем пользователя локально
-    const id = 'user_' + new Date().getTime();
-    const avatar = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(name) + '&background=random';
-    
-    currentUser = { id: id, name: name, avatar: avatar, score: 0, streak: 0 };
-    localStorage.setItem('sportUser', JSON.stringify(currentUser));
-    
-    showApp();
-    loadLeaderboard(); // Загрузим рейтинг отдельно
-}
-    
-    try {
-        // Используем no-cors режим или простой POST без заголовков
-        const response = await fetch(SCRIPT_URL, {
-            method: 'POST',
-            body: JSON.stringify({ action: 'register', name: name })
-            // Мы НЕ указываем Content-Type, чтобы браузер сам поставил text/plain
-            // Это обходит предварительный OPTIONS запрос, который блокируется
-        });
-        
-        // Google Script иногда возвращает редирект, обрабатываем это
-        if (response.ok || response.type === 'opaque') {
-            // При no-cors мы не видим ответ, поэтому пробуем получить текст
-            // Но лучше работать если response.ok true
-             const text = await response.text();
-             // Пытаемся распарсить, если пришло что-то внятное
-             try {
-                 const data = JSON.parse(text);
-                 if (data.result === 'success') {
-                    currentUser = {
-                        id: data.id,
-                        name: data.name,
-                        avatar: data.avatar,
-                        score: data.score,
-                        streak: 0
-                    };
-                    localStorage.setItem('sportUser', JSON.stringify(currentUser));
-                    showApp();
-                    return;
-                 }
-             } catch (e) {
-                 console.log('Ответ не JSON, но запрос ушел', e);
-             }
+        // === РЕГИСТРАЦИЯ ===
+        async function register() {
+            const name = document.getElementById('reg-name').value.trim();
+            if (!name) return alert('Введите имя');
+            
+            const btn = document.querySelector('#view-login button');
+            btn.innerText = 'Загрузка...';
+            btn.disabled = true;
+            
+            try {
+                // Отправляем данные в Google Script (режим no-cors обходит блокировки браузера)
+                await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'text/plain' },
+                    body: JSON.stringify({ action: 'register', name: name })
+                });
+                
+                // Создаём пользователя локально (так как no-cors не возвращает ответ)
+                const id = 'user_' + Date.now();
+                const avatar = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(name) + '&background=random';
+                
+                currentUser = { id, name, avatar, score: 0, streak: 0 };
+                localStorage.setItem('sportUser', JSON.stringify(currentUser));
+                
+                showApp();
+                loadLeaderboard();
+                
+            } catch (e) {
+                console.error('Ошибка регистрации:', e);
+                alert('Ошибка сети. Проверьте интернет и ссылку SCRIPT_URL.');
+                btn.disabled = false;
+                btn.innerText = 'Войти';
+            }
         }
-        
-        // Если парсинг не удался, но ошибка не вылетела - пробуем симуляцию для теста
-        alert('Данные отправлены! Если не вошли - проверьте консоль (F12).');
-        // Для отладки создадим локального пользователя, чтобы ты мог проверить интерфейс
-        currentUser = { id: 'local_test', name: name, avatar: '', score: 0, streak: 0 };
-        localStorage.setItem('sportUser', JSON.stringify(currentUser));
-        showApp();
-
-    } catch (e) {
-        console.error('Полная ошибка:', e);
-        alert('Ошибка соединения. Смотри инструкцию по отладке.');
-    } finally {
-        btn.innerText = originalText;
-        btn.disabled = false;
-    }
-}
 
         function showApp() {
             document.getElementById('view-login').classList.remove('active');
             document.getElementById('view-home').classList.add('active');
             document.getElementById('app-header').style.display = 'block';
             document.getElementById('app-nav').style.display = 'flex';
-            
             updateHeader();
         }
 
         function updateHeader() {
-            document.getElementById('user-greeting').innerText = `Привет, ${currentUser.name.split(' ')[0]}!`;
+            if (!currentUser) return;
+            const firstName = currentUser.name.split(' ')[0];
+            document.getElementById('user-greeting').innerText = `Привет, ${firstName}!`;
             document.getElementById('user-score').innerText = currentUser.score;
             document.getElementById('user-streak').innerText = currentUser.streak;
         }
@@ -375,34 +256,45 @@ async function register() {
             document.getElementById(`view-${viewName}`).classList.add('active');
             
             document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-            // Простая логика подсветки (можно улучшить по индексу)
-            if(viewName === 'home') document.querySelectorAll('.nav-item')[0].classList.add('active');
-            if(viewName === 'calendar') document.querySelectorAll('.nav-item')[1].classList.add('active');
-            if(viewName === 'leaderboard') document.querySelectorAll('.nav-item')[2].classList.add('active');
+            const navItems = document.querySelectorAll('.nav-item');
+            if (viewName === 'home') navItems[0].classList.add('active');
+            if (viewName === 'calendar') navItems[1].classList.add('active');
+            if (viewName === 'leaderboard') navItems[2].classList.add('active');
 
             if (viewName === 'leaderboard') loadLeaderboard();
             if (viewName === 'calendar') renderCalendar();
         }
 
+        // === ЗАГРУЗКА РЕЙТИНГА ===
         async function loadLeaderboard() {
             const list = document.getElementById('leaderboard-list');
             list.innerHTML = '<div class="loader"></div>';
             
             try {
-                // В реальном приложении лучше кэшировать это
-                const response = await fetch(SCRIPT_URL + '?action=getUsers'); 
+                const response = await fetch(SCRIPT_URL + '?action=getUsers');
                 const data = await response.json();
-                allUsers = data.users;
                 
+                if (data.result !== 'success') {
+                    list.innerHTML = 'Ошибка загрузки данных';
+                    return;
+                }
+                
+                allUsers = data.users;
                 list.innerHTML = '';
+                
+                if (allUsers.length === 0) {
+                    list.innerHTML = '<p style="color:#666">Пока нет участников</p>';
+                    return;
+                }
+                
                 allUsers.forEach((u, index) => {
-                    const isMe = u.id === currentUser.id;
+                    const isMe = u.id === currentUser?.id;
                     const html = `
                         <div class="leader-row" style="${isMe ? 'background:#2c2c2c; padding:10px; border-radius:8px;' : ''}">
                             <div class="leader-rank">${index + 1}</div>
-                            <img src="${u.avatar}" class="leader-avatar">
+                            <img src="${u.avatar}" class="leader-avatar" onerror="this.src='https://ui-avatars.com/api/?name=?'">
                             <div class="leader-info">
-                                <div>${u.name} ${isMe ? '(Вы)' : ''}</div>
+                                <div>${u.name} ${isMe ? '<small style="color:var(--secondary)">(Вы)</small>' : ''}</div>
                                 <div style="font-size:12px; color:#888">Серия: ${u.streak} нед.</div>
                             </div>
                             <div class="leader-score">${u.score}</div>
@@ -411,52 +303,59 @@ async function register() {
                     list.innerHTML += html;
                 });
             } catch (e) {
+                console.error('Ошибка загрузки рейтинга:', e);
                 list.innerHTML = 'Ошибка загрузки';
             }
         }
 
+        // === ПЛАНИРОВАНИЕ ТРЕНИРОВКИ ===
         async function planTraining() {
             const type = document.getElementById('train-type').value;
             const date = document.getElementById('train-date').value;
             
             if (!date) return alert('Выберите дату');
+            if (!currentUser) return alert('Сначала войдите в приложение');
 
             const btn = event.target;
+            const originalText = btn.innerText;
             btn.innerText = '...';
+            btn.disabled = true;
 
-            // Отправляем лог
             await sendLog('plan', `${type} на ${date}`);
             
-            alert('Тренировка запланирована! +1 очко');
-            btn.innerText = 'Запланировать';
+            alert('✅ Тренировка запланирована! +1 очко');
+            btn.innerText = originalText;
+            btn.disabled = false;
             renderCalendar();
             refreshUserScore(1);
         }
 
+        // === ОТМЕТКА О ВЫПОЛНЕНИИ ===
         async function completeToday() {
+            if (!currentUser) return alert('Сначала войдите в приложение');
+            
             const today = new Date().toISOString().split('T')[0];
             const btn = document.getElementById('btn-do-today');
             
-            if (btn.disabled) return;
             btn.disabled = true;
-            btn.innerText = 'Отметка отправлена...';
+            btn.innerText = 'Отправка...';
 
             await sendLog('complete', `Тренировка за ${today}`);
             
-            alert('Отлично! +5 очков');
+            alert('🎉 Отлично! +5 очков');
             btn.innerText = 'Выполнено ✅';
             refreshUserScore(5);
             checkTodayStatus();
         }
 
+        // === ОТПРАВКА ЛОГА ===
         async function sendLog(type, details) {
-            // В реальном проекте тут нужно обновлять и серию недель
-            // Для простоты MVP мы просто шлем лог, а пересчет серии можно делать на стороне Google Sheets скрипта (сложнее) 
-            // или просто начислять очки за действия.
-            
+            if (!currentUser) return;
             try {
                 await fetch(SCRIPT_URL, {
                     method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'text/plain' },
                     body: JSON.stringify({
                         action: 'logAction',
                         user_id: currentUser.id,
@@ -464,17 +363,23 @@ async function register() {
                         details: details
                     })
                 });
-            } catch (e) { console.error(e); }
+            } catch (e) {
+                console.error('Ошибка отправки лога:', e);
+            }
         }
 
         function refreshUserScore(points) {
+            if (!currentUser) return;
             currentUser.score += points;
             localStorage.setItem('sportUser', JSON.stringify(currentUser));
             updateHeader();
+            // Обновляем рейтинг, если мы на вкладке "Топ"
+            if (document.getElementById('view-leaderboard').classList.contains('active')) {
+                loadLeaderboard();
+            }
         }
 
-        // === КАЛЕНДАРЬ И ЛОГИКА СЕРИЙ (Упрощенная визуализация) ===
-        
+        // === КАЛЕНДАРЬ ===
         function renderCalendar() {
             const grid = document.getElementById('calendar-grid');
             grid.innerHTML = '';
@@ -483,14 +388,12 @@ async function register() {
             const daysInMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
             
             for (let i = 1; i <= daysInMonth; i++) {
-                const dateStr = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(i).padStart(2,'0')}`;
                 const dayEl = document.createElement('div');
                 dayEl.className = 'cal-day';
                 
                 if (i === today.getDate()) dayEl.classList.add('today');
                 
-                // Здесь должна быть проверка по логам, есть ли план на этот день
-                // Для демо просто рандомим для наглядности, если это не сегодня
+                // Демо-данные для визуализации (в реальном приложении здесь проверка по логам)
                 if (i < today.getDate() && Math.random() > 0.5) {
                     dayEl.classList.add('done');
                     dayEl.innerHTML = `${i}<div class="dot done"></div>`;
@@ -506,17 +409,8 @@ async function register() {
         }
 
         function checkTodayStatus() {
-            // Проверка, отмечал ли пользователь сегодня
-            // В реальном приложении нужно сверяться с Logs
-            const btn = document.getElementById('btn-do-today');
-            // Заглушка: считаем что если очко за сегодня не начислено (логика сложная для фронтенда без полной выгрузки логов)
-            // Для демо просто оставляем кнопку активной
-            document.getElementById('today-status').innerText = "План на сегодня: Не установлен";
+            document.getElementById('today-status').innerText = "Нажмите кнопку, если тренировка выполнена";
         }
-
     </script>
 </body>
-
 </html>
-
-
