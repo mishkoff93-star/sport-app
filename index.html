@@ -2,415 +2,214 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SportTracker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Трекер Здоровых Привычек</title>
     <style>
         :root {
-            --bg-color: #121212;
-            --card-bg: #1e1e1e;
-            --primary: #bb86fc;
-            --secondary: #03dac6;
-            --text: #ffffff;
-            --text-sec: #b0b0b0;
-            --danger: #cf6679;
-            --nav-height: 60px;
+            --primary-color: #4CAF50;
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+            --text-color: #333;
         }
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
         body {
-            margin: 0; padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--bg-color);
-            color: var(--text);
-            padding-bottom: calc(var(--nav-height) + 20px);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
         }
-        header {
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            max-width: 900px;
             padding: 20px;
-            background: linear-gradient(180deg, rgba(30,30,30,1) 0%, rgba(18,18,18,0) 100%);
-            position: sticky; top: 0; z-index: 10;
         }
-        h1 { margin: 0; font-size: 24px; }
-        .subtitle { color: var(--text-sec); font-size: 14px; }
-        .view { display: none; padding: 20px; animation: fadeIn 0.3s; }
-        .view.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
         .card {
             background-color: var(--card-bg);
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            padding: 30px;
+            width: 300px;
+            text-align: center;
+            transition: transform 0.2s;
         }
-        input, select {
-            width: 100%; padding: 12px; margin-bottom: 10px;
-            background: #2c2c2c; border: 1px solid #333;
-            border-radius: 8px; color: white; font-size: 16px;
+
+        .card:hover {
+            transform: translateY(-5px);
         }
+
+        .card h2 {
+            margin-top: 0;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+        }
+
+        .timer-display {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 20px 0;
+            color: #2c3e50;
+            font-variant-numeric: tabular-nums; /* Чтобы цифры не прыгали */
+        }
+
+        .timer-label {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-bottom: 20px;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+
+        label {
+            font-size: 0.85rem;
+            text-align: left;
+            color: #666;
+        }
+
+        input[type="datetime-local"] {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: inherit;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
         button {
-            width: 100%; padding: 14px;
-            background-color: var(--primary); color: #000;
-            border: none; border-radius: 8px;
-            font-weight: bold; font-size: 16px;
-            cursor: pointer; transition: opacity 0.2s;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s;
         }
-        button:active { opacity: 0.8; }
-        button.secondary { background-color: #333; color: white; }
-        button.danger { background-color: var(--danger); color: white; }
-        .bottom-nav {
-            position: fixed; bottom: 0; left: 0; width: 100%;
-            height: var(--nav-height); background-color: #1e1e1e;
-            display: flex; justify-content: space-around;
-            align-items: center; border-top: 1px solid #333; z-index: 100;
-        }
-        .nav-item {
-            color: var(--text-sec); text-align: center;
-            font-size: 10px; cursor: pointer; flex: 1;
-        }
-        .nav-item.active { color: var(--primary); }
-        .nav-icon { font-size: 20px; display: block; margin-bottom: 2px; }
-        .leader-row {
-            display: flex; align-items: center;
-            padding: 10px 0; border-bottom: 1px solid #333;
-        }
-        .leader-rank { width: 30px; font-weight: bold; color: var(--secondary); }
-        .leader-avatar { width: 40px; height: 40px; border-radius: 50%; margin: 0 10px; object-fit: cover; }
-        .leader-info { flex: 1; }
-        .leader-score { font-weight: bold; color: var(--primary); }
-        .calendar-grid {
-            display: grid; grid-template-columns: repeat(7, 1fr);
-            gap: 5px; margin-top: 10px;
-        }
-        .cal-day {
-            aspect-ratio: 1; background: #2c2c2c;
-            border-radius: 6px; display: flex;
-            flex-direction: column; align-items: center;
-            justify-content: center; font-size: 12px;
-            position: relative; cursor: pointer;
-        }
-        .cal-day.today { border: 1px solid var(--primary); }
-        .cal-day.planned { background-color: rgba(187, 134, 252, 0.2); }
-        .cal-day.done { background-color: rgba(3, 218, 198, 0.3); }
-        .cal-day.missed { background-color: rgba(207, 102, 121, 0.3); }
-        .dot { width: 6px; height: 6px; border-radius: 50%; margin-top: 2px; }
-        .dot.plan { background: var(--primary); }
-        .dot.done { background: var(--secondary); }
-        .loader {
-            border: 4px solid #333; border-top: 4px solid var(--primary);
-            border-radius: 50%; width: 30px; height: 30px;
-            animation: spin 1s linear infinite; margin: 20px auto;
-        }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .badge {
-            display: inline-block; padding: 5px 10px;
-            background: #333; border-radius: 15px;
-            font-size: 12px; margin: 5px 5px 5px 0;
-            border: 1px solid var(--secondary); color: var(--secondary);
+
+        button:hover {
+            background-color: #45a049;
         }
     </style>
 </head>
 <body>
 
-    <header id="app-header" style="display:none;">
-        <h1 id="user-greeting">Привет!</h1>
-        <div class="subtitle">Твой счет: <span id="user-score" style="color:var(--primary)">0</span> | Серия: <span id="user-streak">0</span> нед.</div>
-    </header>
-
-    <div id="view-login" class="view active">
-        <div class="card" style="margin-top: 50px; text-align: center;">
-            <h2>Спорт Трекер</h2>
-            <p>Запланируй. Сделай. Получи очки.</p>
-            <input type="text" id="reg-name" placeholder="Имя и Фамилия">
-            <button onclick="register()">Войти</button>
-        </div>
-    </div>
-
-    <div id="view-home" class="view">
-        <div class="card">
-            <h3>🏆 Достижения</h3>
-            <div id="achievements-list">
-                <span class="badge">Новичок</span>
-            </div>
-        </div>
-        <div class="card">
-            <h3>📅 На сегодня</h3>
-            <div id="today-status">План не установлен</div>
-            <button id="btn-do-today" class="secondary" style="margin-top:10px;" onclick="completeToday()">Я был на тренировке!</button>
-        </div>
-    </div>
-
-    <div id="view-calendar" class="view">
-        <div class="card">
-            <h3>Планирование</h3>
-            <select id="train-type">
-                <option value="Кардио">Кардио (Бег/Велосипед)</option>
-                <option value="Силовая">Силовая (Зал)</option>
-                <option value="Растяжка">Растяжка / Йога</option>
-                <option value="Игра">Игровой вид спорта</option>
-            </select>
-            <input type="date" id="train-date">
-            <button onclick="planTraining()">Запланировать</button>
-        </div>
-        <div class="card">
-            <h3>Календарь</h3>
-            <div class="calendar-grid" id="calendar-grid"></div>
-            <p style="font-size:12px; color:#666; margin-top:10px;">
-                <span style="color:var(--primary)">■</span> План &nbsp;
-                <span style="color:var(--secondary)">■</span> Выполнено &nbsp;
-                <span style="color:var(--danger)">■</span> Пропуск
-            </p>
-        </div>
-    </div>
-
-    <div id="view-leaderboard" class="view">
-        <div class="card">
-            <h3>Топ участников</h3>
-            <div id="leaderboard-list"><div class="loader"></div></div>
-        </div>
-    </div>
-
-    <nav class="bottom-nav" id="app-nav" style="display:none;">
-        <div class="nav-item active" onclick="switchView('home')">
-            <span class="nav-icon">🏠</span>Главная
-        </div>
-        <div class="nav-item" onclick="switchView('calendar')">
-            <span class="nav-icon">📅</span>План
-        </div>
-        <div class="nav-item" onclick="switchView('leaderboard')">
-            <span class="nav-icon">🥇</span>Топ
-        </div>
-    </nav>
-
-    <script>
-        // === КОНФИГУРАЦИЯ ===
-        // ⚠️ ВСТАВЬ СЮДА ССЫЛКУ ИЗ GOOGLE APPS SCRIPT (без пробелов в конце!)
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwVNEQTroHobIFpGzdg6ioymOXHMC-klPSXfW46MDu1SwKaSuev9A2p3bSBt7CsgA/exec';
+<div class="container">
+    <!-- Карточка Кальяна -->
+    <div class="card">
+        <h2>Без Кальяна</h2>
+        <div class="timer-label">Время чистоты</div>
+        <div class="timer-display" id="timer-hookah">00:00:00</div>
         
-        let currentUser = null;
-        let allUsers = [];
+        <div class="controls">
+            <label for="date-hookah">Дата последней затяжки:</label>
+            <input type="datetime-local" id="date-hookah">
+            <button onclick="saveDate('hookah')">Обновить дату</button>
+        </div>
+    </div>
 
-        window.onload = function() {
-            const savedUser = localStorage.getItem('sportUser');
-            if (savedUser) {
-                currentUser = JSON.parse(savedUser);
-                showApp();
-                loadLeaderboard();
-                renderCalendar();
-                checkTodayStatus();
-            }
-            document.getElementById('train-date').valueAsDate = new Date();
-        };
+    <!-- Карточка Алкоголя -->
+    <div class="card">
+        <h2>Без Алкоголя</h2>
+        <div class="timer-label">Время трезвости</div>
+        <div class="timer-display" id="timer-alcohol">00:00:00</div>
 
-        // === РЕГИСТРАЦИЯ ===
-        async function register() {
-            const name = document.getElementById('reg-name').value.trim();
-            if (!name) return alert('Введите имя');
-            
-            const btn = document.querySelector('#view-login button');
-            btn.innerText = 'Загрузка...';
-            btn.disabled = true;
-            
-            try {
-                // Отправляем данные в Google Script (режим no-cors обходит блокировки браузера)
-                await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: { 'Content-Type': 'text/plain' },
-                    body: JSON.stringify({ action: 'register', name: name })
-                });
-                
-                // Создаём пользователя локально (так как no-cors не возвращает ответ)
-                const id = 'user_' + Date.now();
-                const avatar = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(name) + '&background=random';
-                
-                currentUser = { id, name, avatar, score: 0, streak: 0 };
-                localStorage.setItem('sportUser', JSON.stringify(currentUser));
-                
-                showApp();
-                loadLeaderboard();
-                
-            } catch (e) {
-                console.error('Ошибка регистрации:', e);
-                alert('Ошибка сети. Проверьте интернет и ссылку SCRIPT_URL.');
-                btn.disabled = false;
-                btn.innerText = 'Войти';
-            }
+        <div class="controls">
+            <label for="date-alcohol">Дата последнего бокала:</label>
+            <input type="datetime-local" id="date-alcohol">
+            <button onclick="saveDate('alcohol')">Обновить дату</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Базовая дата по умолчанию: 28.02.2026 00:00
+    const DEFAULT_DATE = "2026-02-28T00:00";
+
+    // Инициализация при загрузке страницы
+    document.addEventListener('DOMContentLoaded', () => {
+        initTracker('hookah');
+        initTracker('alcohol');
+        
+        // Запускаем обновление таймеров каждую секунду
+        setInterval(updateTimers, 1000);
+        updateTimers(); // Первый вызов сразу
+    });
+
+    function initTracker(type) {
+        const savedDate = localStorage.getItem(`date-${type}`);
+        const inputElement = document.getElementById(`date-${type}`);
+        
+        // Если дата сохранена, ставим её в инпут, иначе ставим базовую
+        if (savedDate) {
+            inputElement.value = savedDate;
+        } else {
+            inputElement.value = DEFAULT_DATE;
+        }
+    }
+
+    function saveDate(type) {
+        const inputElement = document.getElementById(`date-${type}`);
+        const newDate = inputElement.value;
+        
+        if (newDate) {
+            localStorage.setItem(`date-${type}`, newDate);
+            updateTimers(); // Сразу обновляем таймер
+            alert('Дата успешно сохранена!');
+        }
+    }
+
+    function updateTimers() {
+        updateSingleTimer('hookah');
+        updateSingleTimer('alcohol');
+    }
+
+    function updateSingleTimer(type) {
+        const savedDateString = localStorage.getItem(`date-${type}`);
+        // Если нет сохраненной даты, берем дефолтную
+        const targetDate = savedDateString ? new Date(savedDateString) : new Date(DEFAULT_DATE);
+        const now = new Date();
+
+        const displayElement = document.getElementById(`timer-${type}`);
+
+        // Разница во времени (в миллисекундах)
+        let diff = now - targetDate;
+
+        // Если дата в будущем (пока не наступила), показываем 0
+        if (diff < 0) {
+            displayElement.innerText = "00:00:00";
+            return;
         }
 
-        function showApp() {
-            document.getElementById('view-login').classList.remove('active');
-            document.getElementById('view-home').classList.add('active');
-            document.getElementById('app-header').style.display = 'block';
-            document.getElementById('app-nav').style.display = 'flex';
-            updateHeader();
-        }
+        // Вычисления
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        // Можно добавить секунды, если нужно:
+        // const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-        function updateHeader() {
-            if (!currentUser) return;
-            const firstName = currentUser.name.split(' ')[0];
-            document.getElementById('user-greeting').innerText = `Привет, ${firstName}!`;
-            document.getElementById('user-score').innerText = currentUser.score;
-            document.getElementById('user-streak').innerText = currentUser.streak;
-        }
+        // Форматирование (добавляем ноль спереди, если число меньше 10)
+        const fDays = days < 10 ? '0' + days : days;
+        const fHours = hours < 10 ? '0' + hours : hours;
+        const fMinutes = minutes < 10 ? '0' + minutes : minutes;
 
-        function switchView(viewName) {
-            document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
-            document.getElementById(`view-${viewName}`).classList.add('active');
-            
-            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-            const navItems = document.querySelectorAll('.nav-item');
-            if (viewName === 'home') navItems[0].classList.add('active');
-            if (viewName === 'calendar') navItems[1].classList.add('active');
-            if (viewName === 'leaderboard') navItems[2].classList.add('active');
+        // Вывод: Дни : Часы : Минуты
+        displayElement.innerText = `${fDays}д ${fHours}ч ${fMinutes}м`;
+    }
+</script>
 
-            if (viewName === 'leaderboard') loadLeaderboard();
-            if (viewName === 'calendar') renderCalendar();
-        }
-
-        // === ЗАГРУЗКА РЕЙТИНГА ===
-        async function loadLeaderboard() {
-            const list = document.getElementById('leaderboard-list');
-            list.innerHTML = '<div class="loader"></div>';
-            
-            try {
-                const response = await fetch(SCRIPT_URL + '?action=getUsers');
-                const data = await response.json();
-                
-                if (data.result !== 'success') {
-                    list.innerHTML = 'Ошибка загрузки данных';
-                    return;
-                }
-                
-                allUsers = data.users;
-                list.innerHTML = '';
-                
-                if (allUsers.length === 0) {
-                    list.innerHTML = '<p style="color:#666">Пока нет участников</p>';
-                    return;
-                }
-                
-                allUsers.forEach((u, index) => {
-                    const isMe = u.id === currentUser?.id;
-                    const html = `
-                        <div class="leader-row" style="${isMe ? 'background:#2c2c2c; padding:10px; border-radius:8px;' : ''}">
-                            <div class="leader-rank">${index + 1}</div>
-                            <img src="${u.avatar}" class="leader-avatar" onerror="this.src='https://ui-avatars.com/api/?name=?'">
-                            <div class="leader-info">
-                                <div>${u.name} ${isMe ? '<small style="color:var(--secondary)">(Вы)</small>' : ''}</div>
-                                <div style="font-size:12px; color:#888">Серия: ${u.streak} нед.</div>
-                            </div>
-                            <div class="leader-score">${u.score}</div>
-                        </div>
-                    `;
-                    list.innerHTML += html;
-                });
-            } catch (e) {
-                console.error('Ошибка загрузки рейтинга:', e);
-                list.innerHTML = 'Ошибка загрузки';
-            }
-        }
-
-        // === ПЛАНИРОВАНИЕ ТРЕНИРОВКИ ===
-        async function planTraining() {
-            const type = document.getElementById('train-type').value;
-            const date = document.getElementById('train-date').value;
-            
-            if (!date) return alert('Выберите дату');
-            if (!currentUser) return alert('Сначала войдите в приложение');
-
-            const btn = event.target;
-            const originalText = btn.innerText;
-            btn.innerText = '...';
-            btn.disabled = true;
-
-            await sendLog('plan', `${type} на ${date}`);
-            
-            alert('✅ Тренировка запланирована! +1 очко');
-            btn.innerText = originalText;
-            btn.disabled = false;
-            renderCalendar();
-            refreshUserScore(1);
-        }
-
-        // === ОТМЕТКА О ВЫПОЛНЕНИИ ===
-        async function completeToday() {
-            if (!currentUser) return alert('Сначала войдите в приложение');
-            
-            const today = new Date().toISOString().split('T')[0];
-            const btn = document.getElementById('btn-do-today');
-            
-            btn.disabled = true;
-            btn.innerText = 'Отправка...';
-
-            await sendLog('complete', `Тренировка за ${today}`);
-            
-            alert('🎉 Отлично! +5 очков');
-            btn.innerText = 'Выполнено ✅';
-            refreshUserScore(5);
-            checkTodayStatus();
-        }
-
-        // === ОТПРАВКА ЛОГА ===
-        async function sendLog(type, details) {
-            if (!currentUser) return;
-            try {
-                await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: { 'Content-Type': 'text/plain' },
-                    body: JSON.stringify({
-                        action: 'logAction',
-                        user_id: currentUser.id,
-                        type: type,
-                        details: details
-                    })
-                });
-            } catch (e) {
-                console.error('Ошибка отправки лога:', e);
-            }
-        }
-
-        function refreshUserScore(points) {
-            if (!currentUser) return;
-            currentUser.score += points;
-            localStorage.setItem('sportUser', JSON.stringify(currentUser));
-            updateHeader();
-            // Обновляем рейтинг, если мы на вкладке "Топ"
-            if (document.getElementById('view-leaderboard').classList.contains('active')) {
-                loadLeaderboard();
-            }
-        }
-
-        // === КАЛЕНДАРЬ ===
-        function renderCalendar() {
-            const grid = document.getElementById('calendar-grid');
-            grid.innerHTML = '';
-            
-            const today = new Date();
-            const daysInMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
-            
-            for (let i = 1; i <= daysInMonth; i++) {
-                const dayEl = document.createElement('div');
-                dayEl.className = 'cal-day';
-                
-                if (i === today.getDate()) dayEl.classList.add('today');
-                
-                // Демо-данные для визуализации (в реальном приложении здесь проверка по логам)
-                if (i < today.getDate() && Math.random() > 0.5) {
-                    dayEl.classList.add('done');
-                    dayEl.innerHTML = `${i}<div class="dot done"></div>`;
-                } else if (i > today.getDate() && Math.random() > 0.7) {
-                    dayEl.classList.add('planned');
-                    dayEl.innerHTML = `${i}<div class="dot plan"></div>`;
-                } else {
-                    dayEl.innerText = i;
-                }
-                
-                grid.appendChild(dayEl);
-            }
-        }
-
-        function checkTodayStatus() {
-            document.getElementById('today-status').innerText = "Нажмите кнопку, если тренировка выполнена";
-        }
-    </script>
 </body>
 </html>
